@@ -2,7 +2,7 @@
 
 cnotes is a command line, "repl" style notes/todo application written in C. It aims for a small codebase, portability and simple usage.
 
-# Features:
+## Features:
 * BSD license, do whatever you want
 * Small codebase
 * Fast
