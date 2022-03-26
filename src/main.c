@@ -1,3 +1,8 @@
+/*
+* cnotes is (c) Lilly Cham, 2022.
+* You should have recieved a copy of the BSD 2-clause license with this program. If not, a copy is in the Git repository.
+*/
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
