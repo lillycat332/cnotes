@@ -17,7 +17,6 @@
 #define MAXINPUT 1024		/* maximum input size */
 #define PATH_MAX 1024		/* maximum path length, should be good enough for anything... */
 #define VERSION "v1.2a"
-#define EDITOR = /bin/ed
 
 struct termios orig_termios;
 char file[PATH_MAX];
@@ -72,6 +71,7 @@ void edit(char name[])
 /* parse: parse a command, return 0 for success, 1 for parse failure */
 int parse (char *cmd)
 {
+	/* basically a switch case */
 	if ((strcmp(cmd, "new")) == 0) {
 		printf("not implemented\n");
 		return 0;
@@ -95,8 +95,10 @@ int parse (char *cmd)
 		return 0;
 	}
 
-	else if ((strcmp(cmd, "h")) == 0) {
-		printf("commands:\nh - display help\nput - write to disk\nnew - create a new note\nedit - edit a note\nexit - exit without saving\nls - list notes\nfor more help, see manpage\n");
+	else if ((strcmp(cmd, "h")) == 0||(strcmp(cmd, "help")) == 0) {
+		printf("commands:\nh - display help\nput - write to disk\
+		\nnew - create a new note\nedit - edit a note\nexit - exit without saving\
+		\nls - list notes\nfor more help, see manpage\n");
 		return 0;
 	}
 
@@ -129,6 +131,6 @@ int main (void)
 	strcat(strcpy(file, getenv("HOME")), "/.cnotes");		/* set to location of home directory */
 	mkdir(file, 0777);										/* make .cnotes folder if not present */
 	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
-	repl();		/* initialise the repl */'
+	repl();		/* initialise the repl */
 	return 0;
 }
