@@ -7,10 +7,33 @@
 /* l: are we in the main loop? */
 bool l = true;
 
+
+/* edit: a note editor interface, roughly akin to sam or ed */
+
+void edit(char name)
+{
+	(void)0;
+}
+
 /* parse: parse a command, return 0 for success, 1 for parse failure */
 int parse (char *cmd)
 {
-	if ((strcmp(cmd, "h")) == 0) {
+	if ((strcmp(cmd, "new")) == 0) {
+		printf("not implemented\n");
+		return 0;
+	}
+
+	else if ((strcmp(cmd, "put")) == 0) {
+		printf("not implemented\n");
+		return 0;
+	}
+
+	else if ((strcmp(cmd, "edit")) == 0) {
+		printf("not implemented\n");
+		return 0;
+	}
+
+	else if ((strcmp(cmd, "h")) == 0) {
 		printf("commands:\nh - display help\nput - write to disk\nexit - exit without saving\nfor more help, see manpage\n");
 		return 0;
 	}
