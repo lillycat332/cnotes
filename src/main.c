@@ -11,6 +11,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <dirent.h>
 
 /*** defines ***/
 #define CTRL_KEY(k) ((k) & 0x1f)
@@ -53,6 +54,24 @@ void enableRawMode (void) {
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1) {
 		die("tcsetattr");
 	}
+}
+
+
+/* ls - list files in dir */
+int ls(void)
+{
+	DIR *d;
+	struct dirent *dir;
+	d = opendir(file);
+	if (d)
+	{
+		while ((dir = readdir(d)) != NULL)
+		{
+			printf("%s\n", dir->d_name);
+		}
+		closedir(d);
+	}
+	return(0);
 }
 
 /*
@@ -99,8 +118,13 @@ int parse (char *cmd)
 		return 0;
 	}
 
+	else if ((strcmp(cmd, "open")) == 0) {
+		printf("not implemented");
+		return 0;
+	}
+
 	else if ((strcmp(cmd, "ls")) == 0) {
-		printf("not implemented\n");
+		ls();
 		return 0;
 	}
 

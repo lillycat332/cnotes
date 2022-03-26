@@ -43,4 +43,6 @@ int main()
 ```
 * Variable names shouldn't be very long.
 * Except in edge cases (such as big strings...) lines should be less than 80 cols.
+* Use tabs, real tabs. Not spaces.
 Again, these are generally loose and I'm not too bothered about them.
+
