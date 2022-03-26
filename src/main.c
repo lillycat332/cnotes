@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAXINPUT 1024
-#define VERSION "v1.2b"
+#define VERSION "v1.2a"
 
 /* l: are we in the main loop? */
 bool l = true;
