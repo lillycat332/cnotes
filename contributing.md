@@ -5,3 +5,4 @@ I aim to make cnotes simple to contribute to, without any stringent restrictions
 * Attach things like coredumps and screenshots to your issues if helpful.
 * Contributions ideally should follow the style guidelines.
 * Don't open issues unnecessarily, anything that isn't actually an issue should be asked in Discussions.
+* All source code should be under src/.
