@@ -17,7 +17,7 @@
 #define CTRL_KEY(k) ((k) & 0x1f)
 #define MAXINPUT 1024		/* maximum input size */
 #define PATH_MAX 1024		/* maximum path length, should be good enough for anything... */
-#define VERSION "v1.2a"
+#define VERSION "v1.4a"
 
 struct termios orig_termios;
 char file[PATH_MAX];
@@ -75,8 +75,8 @@ int ls(void)
 }
 
 /*
-* edit: a note editor interface, roughly akin to sam or ed
-* todo: make this work?
+* edit: a note editor interface
+* calls ed (or whatever other editor ig) to edit the note
 */
 
 void edit(char *name)
