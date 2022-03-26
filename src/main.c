@@ -14,8 +14,8 @@
 
 /*** defines ***/
 #define CTRL_KEY(k) ((k) & 0x1f)
-#define MAXINPUT 1024
-#define PATH_MAX 1024
+#define MAXINPUT 1024		/* maximum input size */
+#define PATH_MAX 1024		/* maximum path length, should be good enough for anything... */
 #define VERSION "v1.2a"
 #define EDITOR = /bin/ed
 
@@ -129,6 +129,6 @@ int main (void)
 	strcat(strcpy(file, getenv("HOME")), "/.cnotes");		/* set to location of home directory */
 	mkdir(file, 0777);										/* make .cnotes folder if not present */
 	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
-	repl();
+	repl();		/* initialise the repl */'
 	return 0;
 }
