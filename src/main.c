@@ -18,10 +18,11 @@ char filedir[MAXDIR];
 * todo: make this work?
 */
 
-void edit(char *name[])
+void edit(char name[])
 {
 	char *command;
-	sprintf(command, "%s%s", filedir, *name);
+	sprintf(command, "%s%s", filedir, name);
+	printf("%s",command);
 	system(command);
 }
 
@@ -39,7 +40,10 @@ int parse (char *cmd)
 	}
 
 	else if ((strcmp(cmd, "edit")) == 0) {
-		printf("not implemented\n");
+		printf("enter filename: ");
+		char filename[MAXINPUT];
+		scanf("%s", filename);
+		edit(filename);
 		return 0;
 	}
 
@@ -81,7 +85,7 @@ int main (void)
 	char df[8] = "/.cnotes";
 	strcpy(filedir, getenv("HOME"));
 	strcat(filedir, df);
-	printf("welcome to cnotes (%s¸hd=%s)!\ntype h for help.\n", VERSION, filedir);
+	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
 	repl();
 	return 0;
 }
