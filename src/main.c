@@ -9,18 +9,18 @@
 #include <string.h>
 #define MAXINPUT 1024
 #define VERSION "v1.2a"
-
-/* l: are we in the main loop? */
-bool l = true;
+#define EDITOR = /bin/ed
 
 /*
 * edit: a note editor interface, roughly akin to sam or ed
 * todo: make this work?
 */
 
-void edit(char name)
+void edit(char *name)
 {
-	(void)0;
+	char *command;
+	sprintf(&command, "%s%s", *filedir, *name);
+	system(&command);
 }
 
 /* parse: parse a command, return 0 for success, 1 for parse failure */
@@ -76,6 +76,10 @@ void repl (void)
 
 int main (void)
 {
+	/* l: are we in the main loop? */
+	bool l = true;
+	char filedir = getenv(HOME);
+	strcat(filedir, '.cnotes');
 	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
 	repl();
 	return 0;
