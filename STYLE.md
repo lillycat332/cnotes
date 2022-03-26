@@ -1,4 +1,5 @@
 # General guideline for code styling in this repo:
+These are generally pretty liberal and I'll probably deviate from them often, they're just rough guidelines.
 * functions should be laid out as follows:
 ```c
 name (args)
@@ -17,16 +18,14 @@ if (condition) {
 }
 ```
 * Try not to use external libraries and such (especially not GNU ones). cnotes aims for portability across platforms.
-* Avoid using statements without braces:
+* Avoid using statements without braces (They can be difficult to follow, in my opinion.):
 ```c
 /* Do not: */
 if (condition)
-	doStuff();
-if (other_condition)
-	doOtherStuff();
+	...
 /* Do: */
 if (condition) {
-	doStuff();
+	...
 }
 ```
 * Avoid using single-line comments:
@@ -42,3 +41,4 @@ int main ()
 /* not: */
 int main()
 ```
+Again, these are generally loose and I'm not too bothered about them.
