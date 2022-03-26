@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAXINPUT 1024
+#define VERSION "v1.2b"
 
 /* l: are we in the main loop? */
 bool l = true;
-
 
 /* edit: a note editor interface, roughly akin to sam or ed */
 
@@ -33,8 +33,13 @@ int parse (char *cmd)
 		return 0;
 	}
 
+	else if ((strcmp(cmd, "ls")) == 0) {
+		printf("not implemented\n");
+		return 0;
+	}
+
 	else if ((strcmp(cmd, "h")) == 0) {
-		printf("commands:\nh - display help\nput - write to disk\nexit - exit without saving\nfor more help, see manpage\n");
+		printf("commands:\nh - display help\nput - write to disk\n\nnew - create a new note\nedit - edit a note\nexit - exit without saving\nls - list notes\nfor more help, see manpage\n");
 		return 0;
 	}
 
@@ -63,7 +68,7 @@ void repl (void)
 
 int main (void)
 {
-	printf("welcome to cnotes! type h for help\n\n");
+	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
 	repl();
 	return 0;
 }
