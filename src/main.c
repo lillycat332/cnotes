@@ -7,12 +7,55 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <termios.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+/*** defines ***/
+#define CTRL_KEY(k) ((k) & 0x1f)
 #define MAXINPUT 1024
-#define MAXDIR 1024
+#define PATH_MAX 1024
 #define VERSION "v1.2a"
 #define EDITOR = /bin/ed
 
-char filedir[MAXDIR];
+struct termios orig_termios;
+char file[PATH_MAX];
+
+/* exit displaying error code */
+void die(const char *s) {
+	perror(s);
+	exit(1);
+}
+
+/* turn off raw mode */
+void disableRawMode() {
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios) == -1) {
+		die("tcsetattr");
+	}
+}
+
+
+/* enableRawMode switches us into terminal "raw mode" */
+void enableRawMode (void) {
+	if (tcgetattr(STDIN_FILENO, &orig_termios) == -1) {
+		die("tcgetattr");
+	}
+
+	atexit(disableRawMode);
+	struct termios raw = orig_termios;
+	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+	raw.c_oflag &= ~(OPOST);
+	raw.c_cflag |= (CS8);
+	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+	raw.c_cc[VMIN] = 0;
+	raw.c_cc[VTIME] = 1;
+
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1) {
+		die("tcsetattr");
+	}
+}
+
 /*
 * edit: a note editor interface, roughly akin to sam or ed
 * todo: make this work?
@@ -20,10 +63,10 @@ char filedir[MAXDIR];
 
 void edit(char name[])
 {
-	char *command;
-	sprintf(command, "%s%s", filedir, name);
-	printf("%s",command);
-	system(command);
+	char *command[PATH_MAX];
+	sprintf(*command, "%s%s", file, name);
+	printf("%s",*command);
+	system(*command);
 }
 
 /* parse: parse a command, return 0 for success, 1 for parse failure */
@@ -80,11 +123,11 @@ void repl (void)
 	}
 }
 
+/* main function */
 int main (void)
 {
-	char df[8] = "/.cnotes";
-	strcpy(filedir, getenv("HOME"));
-	strcat(filedir, df);
+	strcat(strcpy(file, getenv("HOME")), "/.cnotes");		/* set to location of home directory */
+	mkdir(file, 0777);										/* make .cnotes folder if not present */
 	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
 	repl();
 	return 0;
