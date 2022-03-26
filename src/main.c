@@ -13,7 +13,10 @@
 /* l: are we in the main loop? */
 bool l = true;
 
-/* edit: a note editor interface, roughly akin to sam or ed */
+/*
+* edit: a note editor interface, roughly akin to sam or ed
+* todo: make this work?
+*/
 
 void edit(char name)
 {
