@@ -8,19 +8,21 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAXINPUT 1024
+#define MAXDIR 1024
 #define VERSION "v1.2a"
 #define EDITOR = /bin/ed
 
+char filedir[MAXDIR];
 /*
 * edit: a note editor interface, roughly akin to sam or ed
 * todo: make this work?
 */
 
-void edit(char *name)
+void edit(char *name[])
 {
 	char *command;
-	sprintf(&command, "%s%s", *filedir, *name);
-	system(&command);
+	sprintf(command, "%s%s", filedir, *name);
+	system(command);
 }
 
 /* parse: parse a command, return 0 for success, 1 for parse failure */
@@ -47,13 +49,13 @@ int parse (char *cmd)
 	}
 
 	else if ((strcmp(cmd, "h")) == 0) {
-		printf("commands:\nh - display help\nput - write to disk\n\nnew - create a new note\nedit - edit a note\nexit - exit without saving\nls - list notes\nfor more help, see manpage\n");
+		printf("commands:\nh - display help\nput - write to disk\nnew - create a new note\nedit - edit a note\nexit - exit without saving\nls - list notes\nfor more help, see manpage\n");
 		return 0;
 	}
 
 	else if ((strcmp(cmd, "exit")) == 0) {
-			l = false;
-			return 0;
+		exit(0);
+		return 0;
 	}
 
 	else {
@@ -67,7 +69,7 @@ int parse (char *cmd)
 void repl (void)
 {
 	char input[MAXINPUT];
-	while (l) {
+	for (;;) {
 		fputs("notes> ", stdout);
 		scanf("%s", input);
 		parse(input);
@@ -76,11 +78,10 @@ void repl (void)
 
 int main (void)
 {
-	/* l: are we in the main loop? */
-	bool l = true;
-	char filedir = getenv(HOME);
-	strcat(filedir, '.cnotes');
-	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
+	char df[8] = "/.cnotes";
+	strcpy(filedir, getenv("HOME"));
+	strcat(filedir, df);
+	printf("welcome to cnotes (%s¸hd=%s)!\ntype h for help.\n", VERSION, filedir);
 	repl();
 	return 0;
 }
