@@ -60,12 +60,21 @@ void enableRawMode (void) {
 * todo: make this work?
 */
 
-void edit(char name[])
+void edit(char *name)
 {
-	char *command[PATH_MAX];
-	sprintf(*command, "%s%s", file, name);
-	printf("%s",*command);
-	system(*command);
+	char command[PATH_MAX] = "/bin/ed ";
+	char path[PATH_MAX];
+	strcpy(path, file);
+	strcat(path, name);
+	strcat(command, path);
+	printf("%s\n",command);
+	FILE *fp;
+	fp = fopen(path, "rb+");
+	if (fp == NULL)  {		//if the file does not exist, create it
+    	fp = fopen(path, "wb");
+	}
+	fclose(fp);
+	system(command);
 }
 
 /* parse: parse a command, return 0 for success, 1 for parse failure */
@@ -128,7 +137,7 @@ void repl (void)
 /* main function */
 int main (void)
 {
-	strcat(strcpy(file, getenv("HOME")), "/.cnotes");		/* set to location of home directory */
+	strcat(strcpy(file, getenv("HOME")), "/.cnotes/");		/* set to location of home directory */
 	mkdir(file, 0777);										/* make .cnotes folder if not present */
 	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
 	repl();		/* initialise the repl */
