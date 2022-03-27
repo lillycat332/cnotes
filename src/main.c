@@ -18,7 +18,7 @@
 #define MAXINPUT 1024		/* maximum input size */
 #define PATH_MAX 1024		/* maximum path length, should be good enough for anything... */
 #define VERSION "v1.4a"
-#define EDITOR "/bin/ed"
+#define EDITOR "/bin/ed "
 
 struct termios orig_termios;
 char file[PATH_MAX];
@@ -64,14 +64,14 @@ int cat(char name[])
 	char c, path[PATH_MAX];
 	strcpy(path, file);
 	strcat(path, name);
-	// Open file
+	/* Open file */
 	fp = fopen(path, "r");
 	if (fp == NULL) {
 		printf("\nCannot open file\n");
 		return(1);
 	}
 
-	// Read contents from file
+	/* Read contents from file */
 	c = fgetc(fp);
 	while (c != EOF) {
 		printf ("%c", c);
@@ -110,13 +110,13 @@ void edit(char *name)
 	char path[PATH_MAX];
 	strcpy(path, file);
 	strcat(path, name);
-	strcat(command, path);
 	FILE *fp;
 	fp = fopen(path, "rb+");
 	if (fp == NULL)  {		//if the file does not exist, create it
     	fp = fopen(path, "wb");
 	}
 	fclose(fp);
+	strcat(command, path);
 	system(command);
 }
 
@@ -125,7 +125,9 @@ int parse (char *cmd)
 {
 	/* basically a switch case */
 	if ((strcmp(cmd, "new")) == 0) {
-		printf("not implemented\n");
+		char filename[MAXINPUT];
+		scanf("%s", filename);
+		edit(filename);
 		return 0;
 	}
 
