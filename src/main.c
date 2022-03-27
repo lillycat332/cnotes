@@ -18,6 +18,7 @@
 #define MAXINPUT 1024		/* maximum input size */
 #define PATH_MAX 1024		/* maximum path length, should be good enough for anything... */
 #define VERSION "v1.4a"
+#define EDITOR "/bin/ed"
 
 struct termios orig_termios;
 char file[PATH_MAX];
@@ -56,6 +57,30 @@ void enableRawMode (void) {
 	}
 }
 
+/* cat - read out a file */
+int cat(char name[])
+{
+	FILE *fp;
+	char c, path[PATH_MAX];
+	strcpy(path, file);
+	strcat(path, name);
+	// Open file
+	fp = fopen(path, "r");
+	if (fp == NULL) {
+		printf("\nCannot open file\n");
+		return(1);
+	}
+
+	// Read contents from file
+	c = fgetc(fp);
+	while (c != EOF) {
+		printf ("%c", c);
+		c = fgetc(fp);
+	}
+
+	fclose(fp);
+	return 0;
+}
 
 /* ls - list files in dir */
 int ls(void)
@@ -81,12 +106,11 @@ int ls(void)
 
 void edit(char *name)
 {
-	char command[PATH_MAX] = "/bin/ed ";
+	char command[PATH_MAX] = EDITOR;
 	char path[PATH_MAX];
 	strcpy(path, file);
 	strcat(path, name);
 	strcat(command, path);
-	printf("%s\n",command);
 	FILE *fp;
 	fp = fopen(path, "rb+");
 	if (fp == NULL)  {		//if the file does not exist, create it
@@ -111,7 +135,6 @@ int parse (char *cmd)
 	}
 
 	else if ((strcmp(cmd, "edit")) == 0) {
-		printf("enter filename: ");
 		char filename[MAXINPUT];
 		scanf("%s", filename);
 		edit(filename);
@@ -120,6 +143,13 @@ int parse (char *cmd)
 
 	else if ((strcmp(cmd, "open")) == 0) {
 		printf("not implemented");
+		return 0;
+	}
+
+	else if ((strcmp(cmd, "cat")) == 0) {
+		char filename[MAXINPUT];
+		scanf("%s", filename);
+		cat(filename);
 		return 0;
 	}
 
