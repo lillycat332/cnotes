@@ -1,58 +1,71 @@
 /*
-* cnotes is (c) Lilly Cham, 2022.
+* cnotes is (c) Lilly Cham and contributors, 2022.
 * You should have recieved a copy of the BSD 2-clause license with this program. If not, a copy is in the Git repository.
 */
 
-#include <stdio.h>
+/*** includes ***/
+#include <dirent.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <termios.h>
 #include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <dirent.h>
 
 /*** defines ***/
 #define CTRL_KEY(k) ((k) & 0x1f)
-#define MAXINPUT 1024		/* maximum input size */
-#define PATH_MAX 1024		/* maximum path length, should be good enough for anything... */
-#define VERSION "v1.4a"
 #define EDITOR "/bin/ed "
+#define MAXINPUT 255		/* maximum input size */
+#define PATH_MAX 255		/* maximum path length, should be good enough for anything... */
+#define VERSION "v1.4a"
 
-struct termios orig_termios;
+/*** prototypes ***/
 char file[PATH_MAX];
+struct termios orig_termios;
+int cat(char name[]);
+int ls(void);
+int parse (char *cmd);
+void die(const char *s);
+void disableRawMode(void);
+void edit(char *name);
+void enableRawMode (void);
+void repl (void);
+
+/* main function */
+int main (void)
+{
+	strcat(strcpy(file, getenv("HOME")), "/.cnotes/");		/* set to location of home directory */
+	mkdir(file, 0777);										/* make .cnotes folder if not present */
+	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
+	repl();		/* initialise the repl */
+	return 0;
+}
+
+/* repl: the main loop of the UI. */
+void repl (void)
+{
+	char input[MAXINPUT];
+	for (;;) {
+		fputs("notes> ", stdout);
+		scanf("%s", input);
+		parse(input);
+	}
+}
+
 
 /* exit displaying error code */
-void die(const char *s) {
+void die(const char *s)
+{
 	perror(s);
 	exit(1);
 }
 
 /* turn off raw mode */
-void disableRawMode() {
+void disableRawMode(void)
+{
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios) == -1) {
-		die("tcsetattr");
-	}
-}
-
-
-/* enableRawMode switches us into terminal "raw mode" */
-void enableRawMode (void) {
-	if (tcgetattr(STDIN_FILENO, &orig_termios) == -1) {
-		die("tcgetattr");
-	}
-
-	atexit(disableRawMode);
-	struct termios raw = orig_termios;
-	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
-	raw.c_oflag &= ~(OPOST);
-	raw.c_cflag |= (CS8);
-	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
-	raw.c_cc[VMIN] = 0;
-	raw.c_cc[VTIME] = 1;
-
-	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1) {
 		die("tcsetattr");
 	}
 }
@@ -179,23 +192,26 @@ int parse (char *cmd)
 
 }
 
-/* repl: the main loop of the UI. */
-void repl (void)
+
+
+/* enableRawMode switches us into terminal "raw mode" */
+void enableRawMode (void)
 {
-	char input[MAXINPUT];
-	for (;;) {
-		fputs("notes> ", stdout);
-		scanf("%s", input);
-		parse(input);
+	if (tcgetattr(STDIN_FILENO, &orig_termios) == -1) {
+		die("tcgetattr");
+	}
+
+	atexit(disableRawMode);
+	struct termios raw = orig_termios;
+	raw.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+	raw.c_oflag &= ~(OPOST);
+	raw.c_cflag |= (CS8);
+	raw.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+	raw.c_cc[VMIN] = 0;
+	raw.c_cc[VTIME] = 1;
+
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1) {
+		die("tcsetattr");
 	}
 }
 
-/* main function */
-int main (void)
-{
-	strcat(strcpy(file, getenv("HOME")), "/.cnotes/");		/* set to location of home directory */
-	mkdir(file, 0777);										/* make .cnotes folder if not present */
-	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
-	repl();		/* initialise the repl */
-	return 0;
-}
