@@ -11,6 +11,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <limits.h>
 #include <termios.h>
 #include <unistd.h>
 
@@ -18,7 +19,6 @@
 #define CTRL_KEY(k) ((k) & 0x1f)
 #define EDITOR "/bin/ed "
 #define MAXINPUT 255		/* maximum input size */
-#define PATH_MAX 255		/* maximum path length, should be good enough for anything... */
 #define VERSION "v1.4a"
 
 /*** prototypes ***/
@@ -60,14 +60,6 @@ void die(const char *s)
 {
 	perror(s);
 	exit(1);
-}
-
-/* turn off raw mode */
-void disableRawMode(void)
-{
-	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios) == -1) {
-		die("tcsetattr");
-	}
 }
 
 /* cat - read out a file */
@@ -211,6 +203,14 @@ void enableRawMode (void)
 	raw.c_cc[VTIME] = 1;
 
 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw) == -1) {
+		die("tcsetattr");
+	}
+}
+
+/* disableRawMode - turn off raw mode */
+void disableRawMode(void)
+{
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &orig_termios) == -1) {
 		die("tcsetattr");
 	}
 }
