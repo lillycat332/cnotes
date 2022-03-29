@@ -4,9 +4,12 @@ CFLAGS :=-Wno-nullability-completeness -Wno-nullability-extension -Wall -pedanti
 BUILD_DIR := build
 SRCS := src/main.c
 
-all: |$(BUILD_DIR)
+all: cnotes
 	@echo -n 'building with: '
-	$(CC) --version | sed 1q
+	@$(CC) --version | sed 1q
+
+
+cnotes: |$(BUILD_DIR)
 	$(CC) -o $(BUILD_DIR)/cnotes $(SRCS) $(CFLAGS)
 
 $(BUILD_DIR):
