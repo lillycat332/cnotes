@@ -1,15 +1,14 @@
 CC :=clang
-CCVERSION = $(shell $(CC) -dumpversion)
+CCVERSION :=$(shell $(CC) -dumpversion)
 CFLAGS :=-Wno-nullability-completeness -Wno-nullability-extension -Wall -pedantic
 BUILD_DIR := build
 SRCS := src/main.c
 
 all: cnotes
-	@echo -n 'building with: '
-	@$(CC) --version | sed 1q
-
 
 cnotes: |$(BUILD_DIR)
+	@echo -n 'building cnotes with: '
+	@$(CC) --version | sed 1q
 	$(CC) -o $(BUILD_DIR)/cnotes $(SRCS) $(CFLAGS)
 
 $(BUILD_DIR):

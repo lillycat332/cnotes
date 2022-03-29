@@ -4,6 +4,7 @@
 */
 
 /*** includes ***/
+#include "config.h"
 #include <dirent.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -17,9 +18,8 @@
 
 /*** defines ***/
 #define CTRL_KEY(k) ((k) & 0x1f)
-#define EDITOR "/bin/ed "
 #define MAXINPUT 255		/* maximum input size */
-#define VERSION "v1.4a"
+#define VERSION "v1.6a"
 
 /*** prototypes ***/
 char file[PATH_MAX];
