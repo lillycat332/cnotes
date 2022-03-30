@@ -27,6 +27,7 @@ char file[PATH_MAX];
 struct termios orig_termios;
 int cat(char name[]);
 int ls(void);
+int printHelp (void);
 int parse (char *cmd);
 void die(const char *s);
 void disableRawMode(void);
@@ -35,7 +36,7 @@ void enableRawMode (void);
 void repl (void);
 
 /* main function */
-int main (void)
+int main (int argc, char *argv[])
 {
 	strcat(strcpy(file, getenv("HOME")), "/.cnotes/");		/* set to location of home directory */
 	mkdir(file, 0777);										/* make .cnotes folder if not present */
