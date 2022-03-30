@@ -51,6 +51,9 @@ void repl (void)
 	for (;;) {
 		fputs("notes> ", stdout);
 		fgets(input, MAXINPUT, stdin);
+		if ((strlen(input) > 0) && (input[strlen (input) - 1] == '\n')) {
+        		input[strlen (input) - 1] = '\0';
+		}
 		parse(input);
 	}
 }
