@@ -22,6 +22,7 @@
 #define VERSION "v1.6a"
 
 /*** prototypes ***/
+bool startsWith (const char *a, const char *b);
 char file[PATH_MAX];
 struct termios orig_termios;
 int cat(char name[]);
@@ -176,6 +177,11 @@ int parse (char *cmd)
 		exit(0);
 		return 0;
 	}
+	
+	else if (startsWith(cmd, "!")) {
+		char* chopped = cmd + 1;
+		system(chopped);
+	}
 
 	else {
 		printf("invalid command, type h for help\n");
@@ -215,3 +221,8 @@ void disableRawMode(void)
 	}
 }
 
+bool startsWith (const char *a, const char *b)
+{
+	if(strncmp(a, b, strlen(b)) == 0) return 1;
+	return 0;
+}
