@@ -19,7 +19,7 @@
 /*** defines ***/
 #define CTRL_KEY(k) ((k) & 0x1f)
 #define MAXINPUT 255		/* maximum input size */
-#define VERSION "v1.6a"
+#define VERSION "v1.8a"
 
 /*** prototypes ***/
 bool startsWith (const char *a, const char *b);
