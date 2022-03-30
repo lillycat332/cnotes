@@ -170,13 +170,19 @@ int parse (char *cmd)
 	}
 
 	else if ((strcmp(cmd, "h")) == 0||(strcmp(cmd, "help")) == 0) {
-		printf("commands:\nh - display help\nput - write to disk\
-		\nnew - create a new note\nedit - edit a note\nexit - exit without saving\
-		\nls - list notes\n! - runs the shell command following\nfor more help, see manpage\n");
+		printf("commands:\
+		\nh - display help\
+		\nput - write to disk\
+		\nnew - create a new note\
+		\nedit - edit a note\
+		\nexit - exit without saving\
+		\nls - list notes\
+		\n! - runs the shell command following\
+		\nfor more help, see manpage\n");
 		return 0;
 	}
 
-	else if ((strcmp(cmd, "exit")) == 0) ||((strcmp(cmd, "q")) == 0) || ((strcmp(cmd, "quit")) == 0)) {
+	else if (strcmp(cmd, "exit") == 0 || strcmp(cmd, "q") == 0 || strcmp(cmd, "quit") == 0) {
 		exit(0);
 		return 0;
 	}
@@ -184,6 +190,7 @@ int parse (char *cmd)
 	else if (startsWith(cmd, "!")) {
 		char* chopped = cmd + 1;
 		system(chopped);
+		return(0);
 	}
 
 	else {
@@ -229,4 +236,21 @@ bool startsWith (const char *a, const char *b)
 {
 	if(strncmp(a, b, strlen(b)) == 0) return 1;
 	return 0;
+}
+
+int printHelp (void)
+{
+	printf("commands:\
+		\nh - display help\
+		\nput - write to disk\
+		\nnew - create a new note\
+		\nedit - edit a note\
+		\nexit - exit without saving\
+		\nls - list notes\
+		\n! - runs the shell command following\
+		\nfor more help, see manpage\
+		\nhttps://github.com/lillycat332/cnotes\
+		\n");
+		
+		return 0;
 }
