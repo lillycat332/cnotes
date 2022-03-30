@@ -176,7 +176,7 @@ int parse (char *cmd)
 		return 0;
 	}
 
-	else if ((strcmp(cmd, "exit")) == 0) {
+	else if ((strcmp(cmd, "exit")) == 0) ||((strcmp(cmd, "q")) == 0) || ((strcmp(cmd, "quit")) == 0)) {
 		exit(0);
 		return 0;
 	}
