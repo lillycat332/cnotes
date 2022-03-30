@@ -172,7 +172,7 @@ int parse (char *cmd)
 	else if ((strcmp(cmd, "h")) == 0||(strcmp(cmd, "help")) == 0) {
 		printf("commands:\nh - display help\nput - write to disk\
 		\nnew - create a new note\nedit - edit a note\nexit - exit without saving\
-		\nls - list notes\nfor more help, see manpage\n");
+		\nls - list notes\n! - runs the shell command following\nfor more help, see manpage\n");
 		return 0;
 	}
 
