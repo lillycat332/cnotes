@@ -1,0 +1,1 @@
+#define EDITOR "/bin/ed "
