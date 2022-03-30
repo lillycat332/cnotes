@@ -50,7 +50,7 @@ void repl (void)
 	char input[MAXINPUT];
 	for (;;) {
 		fputs("notes> ", stdout);
-		scanf("%s", input);
+		fgets(input, MAXINPUT, stdin);
 		parse(input);
 	}
 }
@@ -221,6 +221,7 @@ void disableRawMode(void)
 	}
 }
 
+/* startsWith = Check if string starts with b */
 bool startsWith (const char *a, const char *b)
 {
 	if(strncmp(a, b, strlen(b)) == 0) return 1;
