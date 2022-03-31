@@ -13,7 +13,11 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <limits.h>
+#ifdef __linux__
+	#include <linux/limits.h>
+#else
+	#include <limits.h>
+#endif
 #include <termios.h>
 #include <unistd.h>
 
