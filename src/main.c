@@ -1,69 +1,70 @@
 /*
-* cnotes is (c) Lilly Cham and contributors, 2022, under the terms of the BSD 2-clause license.
-* You should have recieved a copy of the BSD 2-clause license with this program. If not, a copy is in the Git repository.
-*/
+ * cnotes is (c) Lilly Cham and contributors, 2022, under the terms of the BSD
+ * 2-clause license. You should have recieved a copy of the BSD 2-clause license
+ * with this program. If not, a copy is in the Git repository.
+ */
 
 /*** includes ***/
 #include "config.h"
 #include <dirent.h>
 #include <stdbool.h>
-#include <stdio.h>
 #include <stdint.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #ifdef __linux__
-	#include <linux/limits.h>
+#include <linux/limits.h>
 #else
-	#include <limits.h>
+#include <limits.h>
 #endif
 #include <termios.h>
 #include <unistd.h>
 
 /*** defines ***/
-#define CTRL_KEY(k) ((k) & 0x1f)
-#define MAXINPUT 255		/* maximum input size */
+#define CTRL_KEY(k) ((k)&0x1f)
+#define MAXINPUT 255 /* maximum input size */
 #define VERSION "v1.9a"
 
 /*** prototypes ***/
-bool startsWith (const char *a, const char *b);
+bool startsWith(const char *a, const char *b);
 char file[PATH_MAX];
 struct termios orig_termios;
 int cat(char name[]);
 int ls(void);
-int printHelp (void);
-int parse (char *cmd);
+int printHelp(void);
+int parse(char *cmd);
 void die(const char *s);
 void disableRawMode(void);
 void edit(char *name);
-void enableRawMode (void);
-void repl (void);
+void enableRawMode(void);
+void repl(void);
 
 /* main function */
-int main ()
+int main()
 {
-	strcat(strcpy(file, getenv("HOME")), "/.cnotes/");		/* set to location of home directory */
-	mkdir(file, 0777);										/* make .cnotes folder if not present */
+	/* set to location of home directory */
+	strcat(strcpy(file, getenv("HOME")), "/.cnotes/");
+	mkdir(file, 0777);	 /* make .cnotes folder if not present */
 	printf("welcome to cnotes (%s)!\ntype h for help.\n", VERSION);
-	repl();		/* initialise the repl */
+	repl(); /* initialise the repl */
 	return 0;
 }
 
 /* repl: the main loop of the UI. */
-void repl (void)
+void repl(void)
 {
 	char input[MAXINPUT];
 	for (;;) {
 		fputs("notes> ", stdout);
 		fgets(input, MAXINPUT, stdin);
-		if ((strlen(input) > 0) && (input[strlen (input) - 1] == '\n')) {
-        		input[strlen (input) - 1] = '\0';
+		if ((strlen(input) > 0) && (input[strlen(input) - 1] == '\n')) {
+			input[strlen(input) - 1] = '\0';
 		}
 		parse(input);
 	}
 }
-
 
 /* exit displaying error code */
 void die(const char *s)
@@ -83,13 +84,13 @@ int cat(char name[])
 	fp = fopen(path, "r");
 	if (fp == NULL) {
 		printf("\nCannot open file\n");
-		return(1);
+		return (1);
 	}
 
 	/* Read contents from file */
 	c = fgetc(fp);
 	while (c != EOF) {
-		printf ("%c", c);
+		printf("%c", c);
 		c = fgetc(fp);
 	}
 
@@ -103,21 +104,19 @@ int ls(void)
 	DIR *d;
 	struct dirent *dir;
 	d = opendir(file);
-	if (d)
-	{
-		while ((dir = readdir(d)) != NULL)
-		{
+	if (d) {
+		while ((dir = readdir(d)) != NULL) {
 			printf("%s\n", dir->d_name);
 		}
 		closedir(d);
 	}
-	return(0);
+	return (0);
 }
 
 /*
-* edit: a note editor interface
-* calls ed (or whatever other editor ig) to edit the note
-*/
+ * edit: a note editor interface
+ * calls ed (or whatever other editor ig) to edit the note
+ */
 
 void edit(char *name)
 {
@@ -127,8 +126,8 @@ void edit(char *name)
 	strcat(path, name);
 	FILE *fp;
 	fp = fopen(path, "rb+");
-	if (fp == NULL)  {		//if the file does not exist, create it
-    	fp = fopen(path, "wb");
+	if (fp == NULL) { // if the file does not exist, create it
+		fp = fopen(path, "wb");
 	}
 	fclose(fp);
 	strcat(command, path);
@@ -136,7 +135,7 @@ void edit(char *name)
 }
 
 /* parse: parse a command, return 0 for success, 1 for parse failure */
-int parse (char *cmd)
+int parse(char *cmd)
 {
 	/* basically a switch case */
 	if (strcmp(cmd, "new") == 0) {
@@ -175,7 +174,7 @@ int parse (char *cmd)
 		return 0;
 	}
 
-	else if (strcmp(cmd, "h") == 0||strcmp(cmd, "help") == 0) {
+	else if (strcmp(cmd, "h") == 0 || strcmp(cmd, "help") == 0) {
 		printf("commands:\
 		\nh - display help\
 		\nput - write to disk\
@@ -188,28 +187,26 @@ int parse (char *cmd)
 		return 0;
 	}
 
-	else if (strcmp(cmd, "exit") == 0 || strcmp(cmd, "q") == 0 || strcmp(cmd, "quit") == 0) {
+	else if (strcmp(cmd, "exit") == 0 || strcmp(cmd, "q") == 0 ||
+					 strcmp(cmd, "quit") == 0) {
 		exit(0);
 		return 0;
 	}
 
 	else if (startsWith(cmd, "!")) {
-		char* chopped = cmd + 1;
+		char *chopped = cmd + 1;
 		system(chopped);
-		return(0);
+		return (0);
 	}
 
 	else {
 		printf("invalid command, type h for help\n");
 		return 1;
 	}
-
 }
 
-
-
 /* enableRawMode switches us into terminal "raw mode" */
-void enableRawMode (void)
+void enableRawMode(void)
 {
 	if (tcgetattr(STDIN_FILENO, &orig_termios) == -1) {
 		die("tcgetattr");
@@ -238,13 +235,15 @@ void disableRawMode(void)
 }
 
 /* startsWith = Check if string starts with b */
-bool startsWith (const char *a, const char *b)
+bool startsWith(const char *a, const char *b)
 {
-	if(strncmp(a, b, strlen(b)) == 0) return 1;
+	if (strncmp(a, b, strlen(b)) == 0) {
+		return 1;
+	}
 	return 0;
 }
 
-int printHelp (void)
+int printHelp(void)
 {
 	printf("commands:\
 		\nh - display help\
@@ -259,5 +258,5 @@ int printHelp (void)
 		\nhttps://github.com/lillycat332/cnotes\
 		\n");
 
-		return 0;
+	return 0;
 }
