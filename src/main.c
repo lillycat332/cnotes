@@ -255,6 +255,7 @@ int printHelp (void)
 		\nls - list notes\
 		\n! - runs the shell command following\
 		\nfor more help, see manpage\
+		\nproject URL:\
 		\nhttps://github.com/lillycat332/cnotes\
 		\n");
 
