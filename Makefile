@@ -1,6 +1,6 @@
 CC :=clang
 CCVERSION :=$(shell $(CC) -dumpversion)
-CFLAGS :=-Wshadow -Wall -Wextra -Wpedantic -Wstrict-overflow -fno-strict-aliasing -Wno-nullability-completeness -Wno-nullability-extension -std=c11
+CFLAGS :=-Wshadow -Wall -Wextra -Wpedantic -Wstrict-overflow -Wfatal-errors -Wno-unused-function -fno-strict-aliasing -Wno-nullability-completeness -Wno-nullability-extension -std=c11
 BUILD_DIR := build
 SRCS := src/main.c
 

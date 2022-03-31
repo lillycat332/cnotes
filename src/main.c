@@ -1,5 +1,5 @@
 /*
-* cnotes is (c) Lilly Cham and contributors, 2022.
+* cnotes is (c) Lilly Cham and contributors, 2022, under the terms of the BSD 2-clause license.
 * You should have recieved a copy of the BSD 2-clause license with this program. If not, a copy is in the Git repository.
 */
 
