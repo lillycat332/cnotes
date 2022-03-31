@@ -2,7 +2,7 @@
 These are generally pretty liberal and I'll probably deviate from them often, they're just rough guidelines.
 * functions should be laid out as follows:
 ```c
-name (args)
+int name(args)
 {
 	...
 }
@@ -34,15 +34,8 @@ if (condition) {
 /* do this instead */
 ```
 * Use Camel Casing, not snake casing
-* Use a space between names and parentheses:
-```c
-/* like this: */
-int main ()
-/* not: */
-int main()
-```
 * Variable names shouldn't be very long.
-* Except in edge cases (such as big strings...) lines should be less than 80 cols.
+* Except in edge cases, lines should be less than 80 cols.
 * Use tabs, real tabs. Not spaces.
 Again, these are generally loose and I'm not too bothered about them.
 

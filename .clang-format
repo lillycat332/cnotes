@@ -1,11 +1,9 @@
----
 # defaults from the WebKit style
 BasedOnStyle: WebKit
----
-Language: C
+Language: Cpp
 IndentWidth: 8
 UseTab: Always
 BreakBeforeBraces: Linux
 AllowShortIfStatementsOnASingleLine: false
 IndentCaseLabels: true
----
+SpaceBeforeParens: ControlStatements
