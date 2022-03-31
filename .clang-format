@@ -1,5 +1,5 @@
 ---
-# defaults from the WebKit styl
+# defaults from the WebKit style
 BasedOnStyle: WebKit
 ---
 Language: C
