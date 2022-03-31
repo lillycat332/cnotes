@@ -41,7 +41,7 @@ void enableRawMode (void);
 void repl (void);
 
 /* main function */
-int main (int argc, char *argv[])
+int main ()
 {
 	strcat(strcpy(file, getenv("HOME")), "/.cnotes/");		/* set to location of home directory */
 	mkdir(file, 0777);										/* make .cnotes folder if not present */
