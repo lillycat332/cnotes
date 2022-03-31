@@ -8,6 +8,7 @@
 #include <dirent.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -134,43 +135,43 @@ void edit(char *name)
 int parse (char *cmd)
 {
 	/* basically a switch case */
-	if ((strcmp(cmd, "new")) == 0) {
+	if (strcmp(cmd, "new") == 0) {
 		char filename[MAXINPUT];
 		scanf("%s", filename);
 		edit(filename);
 		return 0;
 	}
 
-	else if ((strcmp(cmd, "put")) == 0) {
+	else if (strcmp(cmd, "put") == 0) {
 		printf("not implemented\n");
 		return 0;
 	}
 
-	else if ((strcmp(cmd, "edit")) == 0) {
+	else if (strcmp(cmd, "edit") == 0) {
 		char filename[MAXINPUT];
 		scanf("%s", filename);
 		edit(filename);
 		return 0;
 	}
 
-	else if ((strcmp(cmd, "open")) == 0) {
+	else if (strcmp(cmd, "open") == 0) {
 		printf("not implemented");
 		return 0;
 	}
 
-	else if ((strcmp(cmd, "cat")) == 0) {
+	else if (strcmp(cmd, "cat") == 0) {
 		char filename[MAXINPUT];
 		scanf("%s", filename);
 		cat(filename);
 		return 0;
 	}
 
-	else if ((strcmp(cmd, "ls")) == 0) {
+	else if (strcmp(cmd, "ls") == 0) {
 		ls();
 		return 0;
 	}
 
-	else if ((strcmp(cmd, "h")) == 0||(strcmp(cmd, "help")) == 0) {
+	else if (strcmp(cmd, "h") == 0||strcmp(cmd, "help") == 0) {
 		printf("commands:\
 		\nh - display help\
 		\nput - write to disk\
@@ -187,7 +188,7 @@ int parse (char *cmd)
 		exit(0);
 		return 0;
 	}
-	
+
 	else if (startsWith(cmd, "!")) {
 		char* chopped = cmd + 1;
 		system(chopped);
@@ -252,6 +253,6 @@ int printHelp (void)
 		\nfor more help, see manpage\
 		\nhttps://github.com/lillycat332/cnotes\
 		\n");
-		
+
 		return 0;
 }
