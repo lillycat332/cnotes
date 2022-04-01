@@ -77,7 +77,8 @@ void die(const char *s)
 int cat(char name[])
 {
 	FILE *fp;
-	char c, path[PATH_MAX];
+	char path[PATH_MAX];
+	int c;
 	strcpy(path, file);
 	strcat(path, name);
 	/* Open file */
