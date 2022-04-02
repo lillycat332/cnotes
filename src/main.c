@@ -38,29 +38,9 @@ int printHelp(void);
 int parse(char *cmd);
 void die(const char *s);
 void disableRawMode(void);
+void edit(char *name);
 void enableRawMode(void);
 void repl(void);
-
-/*
- * edit: a note editor interface
- * calls ed (or whatever other editor ig) to edit the note
- */
-
-void edit(char *name)
-{
-	char command[PATH_MAX] = EDITOR;
-	char path[PATH_MAX];
-	strcpy(path, file);
-	strcat(path, name);
-	FILE *fp;
-	fp = fopen(path, "rb+");
-	if (fp == NULL) { // if the file does not exist, create it
-		fp = fopen(path, "wb");
-	}
-	fclose(fp);
-	strcat(command, path);
-	system(command);
-}
 
 /* main function */
 int main()
@@ -85,6 +65,27 @@ void repl(void)
 		}
 		parse(input);
 	}
+}
+
+/*
+ * edit: a note editor interface
+ * calls ed (or whatever other editor ig) to edit the note
+ */
+
+void edit(char *name)
+{
+	char command[PATH_MAX] = EDITOR;
+	char path[PATH_MAX];
+	strcpy(path, file);
+	strcat(path, name);
+	FILE *fp;
+	fp = fopen(path, "rb+");
+	if (fp == NULL) { // if the file does not exist, create it
+		fp = fopen(path, "wb");
+	}
+	fclose(fp);
+	strcat(command, path);
+	system(command);
 }
 
 /* exit displaying error code */
