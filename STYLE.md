@@ -38,4 +38,5 @@ if (condition) {
 * Except in edge cases, lines should be less than 80 cols.
 * Use tabs, real tabs. Not spaces.
 Again, these are generally loose and I'm not too bothered about them.
+The .clang-format rules should do most of this automatically if you run clang-format.
 

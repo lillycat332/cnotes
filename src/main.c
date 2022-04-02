@@ -6,6 +6,7 @@
 
 /*** includes ***/
 #include "config.h"
+/*#include "edit.h"*/
 #include <dirent.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -37,9 +38,29 @@ int printHelp(void);
 int parse(char *cmd);
 void die(const char *s);
 void disableRawMode(void);
-void edit(char *name);
 void enableRawMode(void);
 void repl(void);
+
+/*
+ * edit: a note editor interface
+ * calls ed (or whatever other editor ig) to edit the note
+ */
+
+void edit(char *name)
+{
+	char command[PATH_MAX] = EDITOR;
+	char path[PATH_MAX];
+	strcpy(path, file);
+	strcat(path, name);
+	FILE *fp;
+	fp = fopen(path, "rb+");
+	if (fp == NULL) { // if the file does not exist, create it
+		fp = fopen(path, "wb");
+	}
+	fclose(fp);
+	strcat(command, path);
+	system(command);
+}
 
 /* main function */
 int main()
@@ -112,27 +133,6 @@ int ls(void)
 		closedir(d);
 	}
 	return (0);
-}
-
-/*
- * edit: a note editor interface
- * calls ed (or whatever other editor ig) to edit the note
- */
-
-void edit(char *name)
-{
-	char command[PATH_MAX] = EDITOR;
-	char path[PATH_MAX];
-	strcpy(path, file);
-	strcat(path, name);
-	FILE *fp;
-	fp = fopen(path, "rb+");
-	if (fp == NULL) { // if the file does not exist, create it
-		fp = fopen(path, "wb");
-	}
-	fclose(fp);
-	strcat(command, path);
-	system(command);
 }
 
 /* parse: parse a command, return 0 for success, 1 for parse failure */
